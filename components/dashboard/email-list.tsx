@@ -46,6 +46,7 @@ export function EmailList() {
     "createdAt"
   );
   const [sortOrder, setSortOrder] = React.useState<"asc" | "desc">("desc");
+  const [resendNotConfigured, setResendNotConfigured] = React.useState(false);
 
   const fetchEmails = React.useCallback(async () => {
     setIsLoading(true);
@@ -61,12 +62,26 @@ export function EmailList() {
       const response = await fetch(`/api/waitlist/list?${params}`);
       const data = await response.json();
 
+      if (!response.ok && data.error) {
+        // Handle Resend not configured error gracefully
+        if (data.error.includes("Resend is not configured") || data.error.includes("RESEND_AUDIENCE_ID is not configured")) {
+          setResendNotConfigured(true);
+          setEmails([]);
+          setPagination({ page: 1, limit: 50, total: 0, totalPages: 0 });
+          return;
+        }
+        throw new Error(data.error);
+      }
+
+      setResendNotConfigured(false);
       if (data.data) {
         setEmails(data.data);
         setPagination(data.pagination);
       }
     } catch (error) {
       console.error("Failed to fetch emails:", error);
+      setEmails([]);
+      setPagination({ page: 1, limit: 50, total: 0, totalPages: 0 });
     } finally {
       setIsLoading(false);
     }
@@ -163,11 +178,15 @@ export function EmailList() {
               <div className="size-16 rounded-full bg-muted/50 flex items-center justify-center mb-4">
                 <Mail className="size-8 text-muted-foreground" />
               </div>
-              <h3 className="text-lg font-semibold mb-1">No emails found</h3>
+              <h3 className="text-lg font-semibold mb-1">
+                {resendNotConfigured ? "Resend Not Configured" : "No emails found"}
+              </h3>
               <p className="text-sm text-muted-foreground text-center max-w-sm">
-                {search
-                  ? "Try adjusting your search or filters to find what you're looking for."
-                  : "Start collecting emails by sharing your waitlist link."}
+                {resendNotConfigured
+                  ? "To use the waitlist feature, please configure Resend by setting RESEND_API_KEY and RESEND_AUDIENCE_ID in your environment variables."
+                  : search
+                    ? "Try adjusting your search or filters to find what you're looking for."
+                    : "Start collecting emails by sharing your waitlist link."}
               </p>
             </div>
           ) : (

@@ -2,6 +2,7 @@ import { Navigation } from "@/components/landing/navigation";
 import { HeroSection } from "@/components/landing/hero-section";
 import { FeaturesGrid } from "@/components/landing/features-grid";
 import { SocialProof } from "@/components/landing/social-proof";
+import { Footer } from "@/components/landing/footer";
 
 export default function Page() {
   return (
@@ -10,6 +11,7 @@ export default function Page() {
       <HeroSection />
       <FeaturesGrid />
       <SocialProof />
+      <Footer />
     </main>
   );
 }

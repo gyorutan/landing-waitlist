@@ -33,6 +33,7 @@ export function StatsCards() {
   });
   const [isLoading, setIsLoading] = React.useState(true);
   const [previousStats, setPreviousStats] = React.useState<Stats | null>(null);
+  const [resendNotConfigured, setResendNotConfigured] = React.useState(false);
 
   React.useEffect(() => {
     async function fetchStats() {
@@ -40,6 +41,16 @@ export function StatsCards() {
         const response = await fetch("/api/waitlist/stats");
         const data = await response.json();
 
+        if (!response.ok && data.error) {
+          // Handle Resend not configured error gracefully
+          if (data.error.includes("Resend is not configured") || data.error.includes("RESEND_AUDIENCE_ID is not configured")) {
+            setResendNotConfigured(true);
+            setStats({ total: 0, today: 0, thisWeek: 0, thisMonth: 0 });
+            return;
+          }
+        }
+
+        setResendNotConfigured(false);
         if (data.stats) {
           setPreviousStats(stats);
           setStats(data.stats);

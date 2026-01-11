@@ -35,7 +35,31 @@ function getIconLibrary() {
   }
 }
 
-const iconLibrary = getIconLibrary();
+// Icon library import mappings
+const iconLibraryImports: Record<string, { import: string; from: string }> = {
+  lucide: {
+    import: "lucide-react",
+    from: 'from "lucide-react"',
+  },
+  "tabler-icons": {
+    import: "@tabler/icons-react",
+    from: 'from "@tabler/icons-react"',
+  },
+  hugeicons: {
+    import: "@hugeicons/react",
+    from: 'from "@hugeicons/react"',
+  },
+  "phosphor-icons": {
+    import: "phosphor-react",
+    from: 'from "phosphor-react"',
+  },
+};
+
+// Get selected icon library from config
+const selectedIconLibrary = getIconLibrary();
+const selectedIconImport =
+  iconLibraryImports[selectedIconLibrary] || iconLibraryImports.lucide;
+const iconLibrary = selectedIconLibrary;
 
 // 아이콘 라이브러리별 타입 정의
 export type IconProps = SVGProps<SVGSVGElement> & {

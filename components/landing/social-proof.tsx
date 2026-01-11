@@ -124,35 +124,26 @@ function CountUp({
 
 export function SocialProof({ className }: SocialProofProps) {
   return (
-    <section
-      className={cn(
-        "container mx-auto px-4 py-20 md:py-32",
-        className
-      )}
-    >
+    <section className={cn("container mx-auto px-4 py-20 md:py-32", className)}>
       <div className="mb-16 text-center">
         <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-          Trusted by{" "}
-          <span className="gradient-text">thousands</span>
+          Trusted by <span className="gradient-text">thousands</span>
         </h2>
         <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
           Join a growing community of innovators and early adopters.
         </p>
       </div>
 
-      {/* Stats Grid */}
+      {/* Premium Stats Grid */}
       <div className="grid gap-4 sm:gap-6 grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => (
           <div
             key={stat.label}
-            className="group relative overflow-hidden rounded-xl border border-border bg-card/50 p-4 sm:p-6 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/10"
-            style={{
-              animationDelay: `${index * 0.1}s`,
-            }}
+            className="group relative overflow-hidden rounded-xl border-0 glass-premium p-5 sm:p-7 transition-all duration-200 hover:scale-[1.01] hover:shadow-md"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
             <div className="relative z-10">
-              <div className="mb-2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
+              <div className="mb-3 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold gradient-text">
                 <CountUp
                   end={stat.value}
                   suffix={stat.suffix}
@@ -160,9 +151,11 @@ export function SocialProof({ className }: SocialProofProps) {
                   decimals={stat.value % 1 !== 0 ? 1 : 0}
                 />
               </div>
-              <div className="mb-1 text-sm sm:text-base font-semibold">{stat.label}</div>
+              <div className="mb-2 text-sm sm:text-base font-bold">
+                {stat.label}
+              </div>
               {stat.description && (
-                <div className="text-xs sm:text-sm text-muted-foreground">
+                <div className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                   {stat.description}
                 </div>
               )}
@@ -171,7 +164,7 @@ export function SocialProof({ className }: SocialProofProps) {
         ))}
       </div>
 
-      {/* Testimonials Preview */}
+      {/* Premium Testimonials Preview */}
       <div className="mt-12 sm:mt-16 lg:mt-20 grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-3">
         {[
           {
@@ -198,29 +191,28 @@ export function SocialProof({ className }: SocialProofProps) {
         ].map((testimonial, index) => (
           <div
             key={testimonial.name}
-            className="group relative overflow-hidden rounded-xl border border-border bg-card/50 p-4 sm:p-6 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-primary/10"
-            style={{
-              animationDelay: `${index * 0.1}s`,
-            }}
+            className="group relative overflow-hidden rounded-xl border-0 glass-premium p-5 sm:p-7 transition-all duration-200 hover:scale-[1.01] hover:shadow-md"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
             <div className="relative z-10">
-              <div className="mb-3 sm:mb-4 flex gap-1">
+              <div className="mb-4 flex gap-1">
                 {Array.from({ length: testimonial.rating }).map((_, i) => (
                   <svg
                     key={i}
-                    className="size-3 sm:size-4 fill-primary text-primary"
+                    className="size-4 sm:size-5 fill-primary text-primary"
                     viewBox="0 0 20 20"
                   >
                     <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
                   </svg>
                 ))}
               </div>
-              <p className="mb-3 sm:mb-4 text-xs sm:text-sm leading-relaxed text-muted-foreground">
+              <p className="mb-5 text-sm sm:text-base leading-relaxed text-muted-foreground italic">
                 &ldquo;{testimonial.content}&rdquo;
               </p>
-              <div>
-                <div className="text-sm sm:text-base font-semibold">{testimonial.name}</div>
+              <div className="pt-4 border-t border-border/40">
+                <div className="text-base sm:text-lg font-bold mb-1">
+                  {testimonial.name}
+                </div>
                 <div className="text-xs sm:text-sm text-muted-foreground">
                   {testimonial.role}
                 </div>
